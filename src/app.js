@@ -15,7 +15,7 @@ export default class App extends React.Component {
         <Header />
         <article>
           <div className='column row'>
-            <h1 className='contrast'>{this.props.table}</h1>
+            <h1 className='contrast'>{this.props.store.table}</h1>
 
             <div className='row'>
               <div className='medium-6 columns'>
@@ -48,15 +48,19 @@ export default class App extends React.Component {
     )
   }
   renderFieldContent (field) {
+    const { endpoint, table } = this.props.store
+    const query = `SELECT * FROM ${table} WHERE ${field.name} = '${field.sample}'`
+    const url = `${endpoint}?q=${query}`
     return (
       <div>
         <h2 className='mvn'>{field.name}</h2>
-        <p><code>{field.name}</code> is a <code>{field.type}</code> field.</p>
+        <p><code>{field.name}</code> is a <code>{field.type}</code> field. Example query:</p>
+        <p><code>{url}</code></p>
       </div>
     )
   }
   componentDidMount () {
-    this.props.store.getFields(this.props.domain, this.props.table)
+    this.props.store.getFields()
   }
   onClickField (fieldIndex, evt) {
     this.props.store.selectField(fieldIndex)

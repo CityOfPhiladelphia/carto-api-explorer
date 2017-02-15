@@ -7,9 +7,18 @@ export default class Store {
   @observable fields = []
   @observable selectedFieldIndex = null
 
-  async getFields (domain, table) {
-    const query = `SELECT * from ${table} LIMIT 0`
-    const url = resolve(`https://${domain}`, `/api/v2/sql?q=${query}`)
+  constructor (domain, table) {
+    this.domain = domain
+    this.table = table
+  }
+
+  get endpoint () {
+    return resolve(`https://${this.domain}`, `/api/v2/sql`)
+  }
+
+  async getFields () {
+    const query = `SELECT * from ${this.table} LIMIT 0`
+    const url = `${this.endpoint}?q=${query}`
     try {
       const response = await axios.get(url)
       this.fields = unkeyBy(response.data.fields, 'name')
@@ -20,9 +29,30 @@ export default class Store {
 
   selectField (fieldIndex) {
     this.selectedFieldIndex = fieldIndex
+    const field = this.fields[fieldIndex]
+    if (!field.sample) {
+      this.getSampleValue(fieldIndex)
+    }
+  }
+
+  async getSampleValue (fieldIndex) {
+    const field = this.fields[fieldIndex]
+    const query = `SELECT ${field.name} from ${this.table} WHERE ${field.name} IS NOT NULL LIMIT 1`
+    const url = `${this.endpoint}?q=${query}`
+    try {
+      const response = await axios.get(url)
+      if (response.data.rows.length) {
+        field.sample = response.data.rows[0][field.name]
+      }
+    } catch (err) {
+      console.error(`Error requesting sample value for ${field.name}`, err)
+    }
   }
 }
 
 function unkeyBy (data, keyName) {
-  return map(data, (value, key) => Object.assign({}, value, {[keyName]: key}))
+  // This utility function also adds a `sample` property because when I add it from
+  // getSampleValue, mobx observers don't seem to notice. A little more research into mobx
+  // best practises would resolve this, I'm sure. Maybe something with `extendObservable`.
+  return map(data, (value, key) => Object.assign({}, value, {[keyName]: key, sample: null}))
 }

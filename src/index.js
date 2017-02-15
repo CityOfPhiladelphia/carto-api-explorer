@@ -5,8 +5,6 @@ import App from './app'
 import Store from './store'
 import Splash from './splash'
 
-const store = new Store()
-
 const rootEl = document.getElementById('root')
 const path = window.location.hash.substr(1).split('/')
 
@@ -17,8 +15,10 @@ if (path.length < 2) { // pfft, who needs a router?
   )
 } else {
   const [ domain, table ] = path
+  const store = new Store(domain, table)
+
   ReactDOM.render(
-    <App store={store} domain={domain} table={table} />,
+    <App store={store} />,
     rootEl
   )
 }
