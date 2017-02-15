@@ -5,6 +5,7 @@ import { map } from 'lodash'
 
 export default class Store {
   @observable fields = []
+  @observable selectedFieldIndex = null
 
   async getFields (domain, table) {
     const query = `SELECT * from ${table} LIMIT 0`
@@ -15,6 +16,10 @@ export default class Store {
     } catch (err) {
       console.error('Error requesting fields', err)
     }
+  }
+
+  selectField (fieldIndex) {
+    this.selectedFieldIndex = fieldIndex
   }
 }
 
