@@ -8,7 +8,7 @@ import Splash from './splash'
 const store = new Store()
 
 const rootEl = document.getElementById('root')
-const path = window.location.pathname.substr(1).split('/')
+const path = window.location.hash.substr(1).split('/')
 
 if (path.length < 2) { // pfft, who needs a router?
   ReactDOM.render(
