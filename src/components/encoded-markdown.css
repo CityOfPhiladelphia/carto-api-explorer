@@ -1,0 +1,8 @@
+.markdown > h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown pre {
+  margin-bottom: 10px;
+}

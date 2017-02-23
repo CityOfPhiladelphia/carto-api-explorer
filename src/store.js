@@ -54,5 +54,5 @@ function unkeyBy (data, keyName) {
   // This utility function also adds a `sample` property because when I add it from
   // getSampleValue, mobx observers don't seem to notice. A little more research into mobx
   // best practises would resolve this, I'm sure. Maybe something with `extendObservable`.
-  return map(data, (value, key) => Object.assign({}, value, {[keyName]: key, sample: null}))
+  return map(data, (value, key) => Object.assign({}, value, {[keyName]: key, sample: ''}))
 }

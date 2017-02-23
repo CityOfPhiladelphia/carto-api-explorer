@@ -2,12 +2,21 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import classNames from 'classnames'
 
-import Header from './header'
+import Header from './components/header'
+import EncodedMarkdown from './components/encoded-markdown'
+import Intro from './content/intro.md'
+import StringField from './content/string-field.md'
+import GeometryField from './content/geometry-field.md'
+
+const fieldTypes = {
+  string: StringField,
+  geometry: GeometryField
+}
 
 @observer
 export default class App extends React.Component {
   render () {
-    const { domain, table, selectedFieldIndex, fields } = this.props.store
+    const { table, endpoint, selectedFieldIndex, fields } = this.props.store
     const selectedField = selectedFieldIndex ? fields[selectedFieldIndex] : null
 
     return (
@@ -15,22 +24,7 @@ export default class App extends React.Component {
         <Header />
         <article>
           <div className='column row'>
-            <h1 className='contrast'>{table}</h1>
-
-            <p>
-              This dataset is published to <a href='https://carto.com'>carto</a>, which allows you to
-              query the data using SQL (specifically the PostgreSQL flavor with the PostGIS extension).
-              Rather than executing the queries in a database program, you execute them through HTTP
-              (ie. the web browser) via Carto's <a href='https://carto.com/docs/carto-engine/sql-api'>SQL API</a>,
-              passing your query as the <code>q</code> parameter. For example:
-            </p>
-
-            <p><code>https://{domain}/api/v2/sql?q=SELECT * FROM {table}</code></p>
-
-            <p>
-              You can do just about everything you'd expect from a PostgreSQL+PostGIS database - even
-              joins between tables.
-            </p>
+            <EncodedMarkdown source={Intro} endpoint={endpoint} table={table} />
 
             <div className='row'>
               <div className='medium-6 columns'>
@@ -41,7 +35,9 @@ export default class App extends React.Component {
               <div className='medium-18 columns'>
                 <div className='tabs-content vertical'>
                   <div className='tabs-panel is-active'>
-                    {selectedField ? this.renderFieldContent(selectedField) : 'Select a field on the left'}
+                    {selectedField
+                      ? <EncodedMarkdown source={fieldTypes[selectedField.type] || StringField} field={selectedField} endpoint={endpoint} table={table} />
+                      : 'Select a field on the left'}
                   </div>
                 </div>
               </div>
