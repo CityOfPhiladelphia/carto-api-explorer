@@ -2,8 +2,7 @@ language: node_js
 node_js:
   - "6"
 script:
-  - npm test
-  - npm run build
+  - yarn run build
 deploy:
   provider: pages
   local_dir: build
