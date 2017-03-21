@@ -1,14 +1,16 @@
-import { observable } from 'mobx'
+import { extendObservable } from 'mobx'
 import axios from 'axios'
 import { map } from 'lodash'
 
 export default class Store {
-  @observable fields = []
-  @observable selectedFieldIndex = null
-
   constructor (endpoint, table) {
     this.endpoint = endpoint
     this.table = table
+
+    extendObservable(this, {
+      fields: [],
+      selectedFieldIndex: null
+    })
   }
 
   async getFields () {

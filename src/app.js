@@ -18,8 +18,7 @@ const fieldTypes = {
   date: DateField
 }
 
-@observer
-export default class App extends React.Component {
+export default observer(class App extends React.Component {
   render () {
     const { table, endpoint, selectedFieldIndex, fields } = this.props.store
     const selectedField = selectedFieldIndex ? fields[selectedFieldIndex] : null
@@ -86,4 +85,4 @@ export default class App extends React.Component {
     this.props.store.selectField(fieldIndex)
     evt.preventDefault()
   }
-}
+})

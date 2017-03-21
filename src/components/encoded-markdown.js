@@ -5,8 +5,7 @@ import template from 'lodash/template'
 
 import './encoded-markdown.css'
 
-@observer
-export default class EncodedMarkdown extends React.Component {
+export default observer(class EncodedMarkdown extends React.Component {
   render () {
     const markdown = decode(this.props.source)
     const compiledTemplate = template(markdown, { interpolate: /{{([\s\S]+?)}}/g })
@@ -14,7 +13,7 @@ export default class EncodedMarkdown extends React.Component {
 
     return <ReactMarkdown source={processedTemplate} className='markdown' skipHtml={true} />
   }
-}
+})
 
 function decode (dataUrl) {
   const parts = dataUrl.split(',')
