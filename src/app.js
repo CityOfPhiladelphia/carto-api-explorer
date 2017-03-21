@@ -7,11 +7,15 @@ import EncodedMarkdown from './components/encoded-markdown'
 import Intro from './content/intro.md'
 import StringField from './content/string-field.md'
 import GeometryField from './content/geometry-field.md'
+import NumberField from './content/number-field.md'
+import DateField from './content/date-field.md'
 import OtherField from './content/other-field.md'
 
 const fieldTypes = {
   string: StringField,
-  geometry: GeometryField
+  geometry: GeometryField,
+  number: NumberField,
+  date: DateField
 }
 
 @observer
