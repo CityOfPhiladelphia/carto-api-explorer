@@ -1,19 +1,14 @@
 import { observable } from 'mobx'
 import axios from 'axios'
-import { resolve } from 'url'
 import { map } from 'lodash'
 
 export default class Store {
   @observable fields = []
   @observable selectedFieldIndex = null
 
-  constructor (domain, table) {
-    this.domain = domain
+  constructor (endpoint, table) {
+    this.endpoint = endpoint
     this.table = table
-  }
-
-  get endpoint () {
-    return resolve(`https://${this.domain}`, `/api/v2/sql`)
   }
 
   async getFields () {

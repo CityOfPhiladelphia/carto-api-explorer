@@ -15,4 +15,5 @@ please let us know if there are any suggestions!
 ## Usage
 
 1. Install dependencies via `npm install` or `yarn install`
-2. Run a development server using `npm start` or `yarn start`
+2. Copy `.env.sample` to `.env` and modify configuration as necessary
+3. Run a development server using `npm start` or `yarn start`
