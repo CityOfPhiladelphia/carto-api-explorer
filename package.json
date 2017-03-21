@@ -2,6 +2,7 @@
   "name": "mobx-testing",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/carto-api-explorer",
   "devDependencies": {
     "custom-react-scripts": "0.0.23"
   },
