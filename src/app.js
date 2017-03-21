@@ -7,6 +7,7 @@ import EncodedMarkdown from './components/encoded-markdown'
 import Intro from './content/intro.md'
 import StringField from './content/string-field.md'
 import GeometryField from './content/geometry-field.md'
+import OtherField from './content/other-field.md'
 
 const fieldTypes = {
   string: StringField,
@@ -36,7 +37,11 @@ export default class App extends React.Component {
                 <div className='tabs-content vertical'>
                   <div className='tabs-panel is-active'>
                     {selectedField
-                      ? <EncodedMarkdown source={fieldTypes[selectedField.type] || StringField} field={selectedField} endpoint={endpoint} table={table} />
+                      ? <EncodedMarkdown
+                          source={fieldTypes[selectedField.type] || OtherField}
+                          field={selectedField}
+                          endpoint={endpoint}
+                          table={table} />
                       : 'Select a field on the left'}
                   </div>
                 </div>
