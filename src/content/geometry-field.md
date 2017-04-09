@@ -1,11 +1,10 @@
 ## {{ field.name }}
 
-`{{ field.name }}` is a `geometry` field. Example query:
+`{{ field.name }}` is a `geometry` field. You can perform powerful queries and
+analysis using this field, but the queries look a bit more verbose than other
+field types and require more explanation. ([Know a good example
+query?](https://github.com/CityOfPhiladelphia/carto-api-explorer/issues/4))
 
-```
-SELECT * FROM {{ table }} WHERE {{ field.name }} = '{{ field.sample }}'
-```
- 
 ### Output format
 By default, geometry fields are output in Well-Known Binary (WKB) format. You
 can request it in another format using [standard PostGIS

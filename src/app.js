@@ -10,6 +10,15 @@ import GeometryField from './content/geometry-field.md'
 import NumberField from './content/number-field.md'
 import DateField from './content/date-field.md'
 import OtherField from './content/other-field.md'
+import CartoDBID from './content/cartodb_id.md'
+import TheGeomWebmercator from './content/the_geom_webmercator.md'
+import ObjectID from './content/objectid.md'
+
+const specialFields = {
+  cartodb_id: CartoDBID,
+  the_geom_webmercator: TheGeomWebmercator,
+  objectid: ObjectID
+}
 
 const fieldTypes = {
   string: StringField,
@@ -21,7 +30,8 @@ const fieldTypes = {
 export default observer(class App extends React.Component {
   render () {
     const { table, endpoint, selectedFieldIndex, fields } = this.props.store
-    const selectedField = selectedFieldIndex ? fields[selectedFieldIndex] : null
+    const selectedField = selectedFieldIndex !== null ? fields[selectedFieldIndex] : null
+    const content = selectedField ? this.determineContent(selectedField) : null
 
     return (
       <div className='site' id='page'>
@@ -41,7 +51,7 @@ export default observer(class App extends React.Component {
                   <div className='tabs-panel is-active'>
                     {selectedField
                       ? <EncodedMarkdown
-                          source={fieldTypes[selectedField.type] || OtherField}
+                          source={content}
                           field={selectedField}
                           endpoint={endpoint}
                           table={table} />
@@ -54,6 +64,9 @@ export default observer(class App extends React.Component {
         </article>
       </div>
     )
+  }
+  determineContent (field) {
+    return specialFields[field.name] || fieldTypes[field.type] || OtherField
   }
   renderFieldTab (field, index) {
     const selectedFieldIndex = this.props.store.selectedFieldIndex

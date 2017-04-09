@@ -34,12 +34,20 @@ export default class Store {
 
   async getSampleValue (fieldIndex) {
     const field = this.fields[fieldIndex]
-    const query = `SELECT ${field.name} from ${this.table} WHERE ${field.name} IS NOT NULL LIMIT 1`
+    const fieldName = (field.type === 'geometry')
+      ? `ST_AsText(${field.name})`
+      : field.name
+    const query = `
+      SELECT ${fieldName} AS sample
+      FROM ${this.table}
+      WHERE ${field.name} IS NOT NULL
+      LIMIT 1
+    `
     const url = `${this.endpoint}?q=${query}`
     try {
       const response = await axios.get(url)
       if (response.data.rows.length) {
-        field.sample = response.data.rows[0][field.name]
+        field.sample = response.data.rows[0].sample
       }
     } catch (err) {
       console.error(`Error requesting sample value for ${field.name}`, err)
