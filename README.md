@@ -17,3 +17,4 @@ please let us know if there are any suggestions!
 1. Install dependencies via `npm install` or `yarn install`
 2. Copy `.env.sample` to `.env` and modify configuration as necessary
 3. Run a development server using `npm start` or `yarn start`
+4. Generate the documentation for a table by adding '/#' followed by the table name to the end of the URL. Example for a table called `tabletest`: `/#tabletest`
